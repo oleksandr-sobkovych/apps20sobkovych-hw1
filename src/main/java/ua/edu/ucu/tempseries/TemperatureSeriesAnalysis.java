@@ -2,7 +2,9 @@ package ua.edu.ucu.tempseries;
 
 import array.operations.ArrayCheckMargin;
 import array.operations.ArrayLengthExtend;
-import comparisons.*;
+import comparisons.CompareDoubles;
+import comparisons.GreaterEqual;
+import comparisons.Less;
 
 import java.util.Arrays;
 import java.util.InputMismatchException;
@@ -11,11 +13,13 @@ public class TemperatureSeriesAnalysis {
 
     private double[] tempSeries;
     private int currentSize;
-    private static final int LOWER_BOUND = -273, EXTEND = 2;
-    private static final Less less = new Less();
-    private static final GreaterEqual greater = new GreaterEqual();
-    private static final ArrayCheckMargin checkMargin = new ArrayCheckMargin();
-    private static final ArrayLengthExtend ext = new ArrayLengthExtend(EXTEND);
+    private final int LOWER_BOUND = -273;
+    private final int EXTEND = 2;
+    private final Less less = new Less();
+    private final GreaterEqual greater = new GreaterEqual();
+    private final ArrayCheckMargin checkMargin = new ArrayCheckMargin();
+    private final ArrayLengthExtend ext = new ArrayLengthExtend(EXTEND);
+    private final double THRESHHOLD = 0.00001;
 
     public TemperatureSeriesAnalysis() {
         /*
@@ -55,7 +59,9 @@ public class TemperatureSeriesAnalysis {
          */
         emptySeriesCheck("average");
         double sum = 0;
-        for (int i = 0; i < currentSize; i++) sum += tempSeries[i];
+        for (int i = 0; i < currentSize; i++) {
+            sum += tempSeries[i];
+        }
         return sum / currentSize;
     }
 
@@ -66,7 +72,9 @@ public class TemperatureSeriesAnalysis {
         emptySeriesCheck("deviation");
         double avg = average();
         double sum = 0;
-        for (int i = 0; i < currentSize; i++) sum += Math.pow(tempSeries[i] - avg, 2);
+        for (int i = 0; i < currentSize; i++) {
+            sum += Math.pow(tempSeries[i] - avg, 2);
+        }
         return Math.sqrt(sum / currentSize);
     }
 
@@ -107,7 +115,7 @@ public class TemperatureSeriesAnalysis {
             double tempDistance = Math.abs(tempSeries[i]-tempValue);
             double currentDistance = Math.abs(current-tempValue);
             if ((tempDistance < currentDistance) ||
-                    ((tempDistance == currentDistance && (tempSeries[i] > current)))) {
+                    (((tempDistance - currentDistance) < THRESHHOLD && (tempSeries[i] > current)))) {
                 current = tempSeries[i];
             }
         }

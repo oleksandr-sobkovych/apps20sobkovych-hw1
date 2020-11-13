@@ -3,8 +3,8 @@ package array.operations;
 public class ArrayLengthExtend {
     private final int extendCoef;
 
-    public ArrayLengthExtend(int extend_coef) {
-        this.extendCoef = extend_coef;
+    public ArrayLengthExtend(int extendCoef) {
+        this.extendCoef = extendCoef;
     }
 
     public int extend(int arrayLen) {

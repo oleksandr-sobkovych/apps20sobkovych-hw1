@@ -1,7 +1,7 @@
 package comparisons;
 
 public class Less implements CompareDoubles {
-    public boolean compare(double d1, double d2) {
-        return d1 < d2;
+    public boolean compare(double da, double db) {
+        return da < db;
     }
 }
