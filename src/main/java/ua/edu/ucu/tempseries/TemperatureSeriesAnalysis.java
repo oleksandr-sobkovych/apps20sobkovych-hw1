@@ -11,15 +11,15 @@ import java.util.InputMismatchException;
 
 public class TemperatureSeriesAnalysis {
 
+    private static final int LOWERBOUND = -273;
+    private static final int EXTEND = 2;
+    private static final double THRESHHOLD = 0.00001;
     private double[] tempSeries;
     private int currentSize;
-    private static final int lowerBound = -273;
-    private static final int extend = 2;
     private final Less less = new Less();
     private final GreaterEqual greater = new GreaterEqual();
     private final ArrayCheckMargin checkMargin = new ArrayCheckMargin();
-    private final ArrayLengthExtend ext = new ArrayLengthExtend(extend);
-    private static final double threshhold = 0.00001;
+    private final ArrayLengthExtend ext = new ArrayLengthExtend(EXTEND);
 
     public TemperatureSeriesAnalysis() {
         /*
@@ -36,7 +36,7 @@ public class TemperatureSeriesAnalysis {
         Still initializes an empty array if exception is caught.
          */
         this();
-        if (checkMargin.checkAnyMargin(temperatureSeries, lowerBound,
+        if (checkMargin.checkAnyMargin(temperatureSeries, LOWERBOUND,
                 temperatureSeries.length, less)) {
             throw new InputMismatchException("Initial array has "
                     + "impossibly low temperatures");
@@ -120,7 +120,7 @@ public class TemperatureSeriesAnalysis {
             double tempDistance = Math.abs(tempSeries[i]-tempValue);
             double currentDistance = Math.abs(current-tempValue);
             if ((tempDistance < currentDistance)
-                    || (((tempDistance - currentDistance) < threshhold
+                    || (((tempDistance - currentDistance) < THRESHHOLD
                         && (tempSeries[i] > current)))) {
                 current = tempSeries[i];
             }
@@ -166,9 +166,9 @@ public class TemperatureSeriesAnalysis {
     public int addTemps(double... temps) {
         /*
         Add any number of temperatures. Check for absolute zero,
-        extend array in accordance with the coefficient.
+        EXTEND array in accordance with the coefficient.
          */
-        if (checkMargin.checkAnyMargin(temps, lowerBound, temps.length,
+        if (checkMargin.checkAnyMargin(temps, LOWERBOUND, temps.length,
                 less)) {
             throw new InputMismatchException("impossibly low temperature "
                     + "in arguments");
