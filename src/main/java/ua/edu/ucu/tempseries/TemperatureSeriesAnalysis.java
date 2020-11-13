@@ -13,13 +13,13 @@ public class TemperatureSeriesAnalysis {
 
     private double[] tempSeries;
     private int currentSize;
-    private final int LOWER_BOUND = -273;
-    private final int EXTEND = 2;
+    private final int lowerBound= -273;
+    private final int extend = 2;
     private final Less less = new Less();
     private final GreaterEqual greater = new GreaterEqual();
     private final ArrayCheckMargin checkMargin = new ArrayCheckMargin();
-    private final ArrayLengthExtend ext = new ArrayLengthExtend(EXTEND);
-    private final double THRESHHOLD = 0.00001;
+    private final ArrayLengthExtend ext = new ArrayLengthExtend(extend);
+    private final double threshhold = 0.00001;
 
     public TemperatureSeriesAnalysis() {
         /*
@@ -31,12 +31,15 @@ public class TemperatureSeriesAnalysis {
 
     public TemperatureSeriesAnalysis(double[] temperatureSeries) {
         /*
-        Constructor with parameters, creates an array of exact length, test for absolute zero.
+        Constructor with parameters, creates an array of exact length,
+        test for absolute zero.
         Still initializes an empty array if exception is caught.
          */
         this();
-        if (checkMargin.checkAnyMargin(temperatureSeries, LOWER_BOUND, temperatureSeries.length, less)) {
-            throw new InputMismatchException("Initial array has impossibly low temperatures");
+        if (checkMargin.checkAnyMargin(temperatureSeries, lowerBound,
+                temperatureSeries.length, less)) {
+            throw new InputMismatchException("Initial array has " +
+                    "impossibly low temperatures");
         }
         else {
             this.currentSize = temperatureSeries.length;
@@ -49,7 +52,8 @@ public class TemperatureSeriesAnalysis {
         Check if array is empty.
         */
         if (currentSize == 0) {
-            throw new IllegalArgumentException("no " + methodName + " for empty array");
+            throw new IllegalArgumentException("no " + methodName +
+                    " for empty array");
         }
     }
 
@@ -73,7 +77,7 @@ public class TemperatureSeriesAnalysis {
         double avg = average();
         double sum = 0;
         for (int i = 0; i < currentSize; i++) {
-            sum += Math.pow(tempSeries[i] - avg, 2);
+            sum += (tempSeries[i] - avg) * (tempSeries[i] - avg);
         }
         return Math.sqrt(sum / currentSize);
     }
@@ -107,22 +111,25 @@ public class TemperatureSeriesAnalysis {
 
     public double findTempClosestToValue(double tempValue) {
         /*
-        Find closest temperature to value. If there are multuple take the greater one.
+        Find closest temperature to value. If there are multuple
+        take the greater one.
          */
         emptySeriesCheck("closest temperatures to " + tempValue);
         double current = this.tempSeries[0];
         for (int i = 0; i < currentSize; i++) {
             double tempDistance = Math.abs(tempSeries[i]-tempValue);
             double currentDistance = Math.abs(current-tempValue);
-            if ((tempDistance < currentDistance) ||
-                    (((tempDistance - currentDistance) < THRESHHOLD && (tempSeries[i] > current)))) {
+            if ((tempDistance < currentDistance)
+                    || (((tempDistance - currentDistance) < threshhold
+                        && (tempSeries[i] > current)))) {
                 current = tempSeries[i];
             }
         }
         return current;
     }
 
-    private double[] findTempsComparedToMargin(double tempValue, CompareDoubles compareDoubles) {
+    private double[] findTempsComparedToMargin(double tempValue,
+                                               CompareDoubles compareDoubles) {
         /*
         Find all values in accordance with the comparator. Fits the values.
          */
@@ -158,10 +165,13 @@ public class TemperatureSeriesAnalysis {
 
     public int addTemps(double... temps) {
         /*
-        Add any number of temperatures. Check for absolute zero, extend array in accordance with the coefficient.
+        Add any number of temperatures. Check for absolute zero,
+        extend array in accordance with the coefficient.
          */
-        if (checkMargin.checkAnyMargin(temps, LOWER_BOUND, temps.length, less)) {
-            throw new InputMismatchException("impossibly low temperature in arguments");
+        if (checkMargin.checkAnyMargin(temps, lowerBound, temps.length,
+                less)) {
+            throw new InputMismatchException("impossibly low temperature "
+                    + "in arguments");
         } else {
             int newLen = tempSeries.length;
             while (temps.length + currentSize > newLen) {
@@ -178,9 +188,8 @@ public class TemperatureSeriesAnalysis {
 
     @Override
     public String toString() {
-        return "TemperatureSeriesAnalysis{" +
-                "tempSeries=" + Arrays.toString(tempSeries) +
-                ", currentSize=" + currentSize +
-                '}';
+        return "TemperatureSeriesAnalysis{"
+                + "tempSeries=" + Arrays.toString(tempSeries)
+                + ", currentSize=" + currentSize + '}';
     }
 }

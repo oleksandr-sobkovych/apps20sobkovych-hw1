@@ -4,7 +4,8 @@ public class TempSummaryStatistics {
     public final double avgTemp, devTemp, minTemp, maxTemp;
 
     public TempSummaryStatistics() throws IllegalArgumentException {
-        throw new IllegalArgumentException("summary cannot be unassociated with analysis");
+        throw new IllegalArgumentException("summary cannot be " +
+                "unassociated with analysis");
     }
 
     public TempSummaryStatistics(TemperatureSeriesAnalysis seriesAnalysis) {
