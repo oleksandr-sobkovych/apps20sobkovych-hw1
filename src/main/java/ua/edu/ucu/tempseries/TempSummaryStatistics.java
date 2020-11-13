@@ -1,7 +1,11 @@
 package ua.edu.ucu.tempseries;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
+@EqualsAndHashCode
 public class TempSummaryStatistics {
-    public final double avgTemp, devTemp, minTemp, maxTemp;
+    @Getter
+    private final double avgTemp, devTemp, minTemp, maxTemp;
 
     public TempSummaryStatistics() throws IllegalArgumentException {
         throw new IllegalArgumentException("summary cannot be "

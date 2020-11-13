@@ -299,13 +299,15 @@ public class TemperatureSeriesAnalysisTest {
         // setup input data and expected result
         double[] temperatureSeries = {3.0, -5.0, 1.0, 5.0, 10.3};
         TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(temperatureSeries);
-        String expResult = "TempSummaryStatistics{avgTemp=2.8600000000000003, devTemp=5.003838526571377, minTemp=-5.0, maxTemp=10.3}";
+        double[] expResult = {2.86, 5.003838, -5.0, 10.3};
 
         // call tested method
-        String actualResult = seriesAnalysis.summaryStatistics().toString();
+        TempSummaryStatistics statistics = seriesAnalysis.summaryStatistics();
+        double[] actualResult = {statistics.getAvgTemp(), statistics.getDevTemp(),
+                statistics.getMinTemp(), statistics.getMaxTemp()};
 
         // compare expected result with actual result
-        assertEquals(expResult, actualResult);
+        assertArrayEquals(expResult, actualResult, 0.00001);
     }
 
     @Test
