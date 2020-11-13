@@ -13,13 +13,13 @@ public class TemperatureSeriesAnalysis {
 
     private double[] tempSeries;
     private int currentSize;
-    private final int lowerBound= -273;
-    private final int extend = 2;
+    private static final int lowerBound = -273;
+    private static final int extend = 2;
     private final Less less = new Less();
     private final GreaterEqual greater = new GreaterEqual();
     private final ArrayCheckMargin checkMargin = new ArrayCheckMargin();
     private final ArrayLengthExtend ext = new ArrayLengthExtend(extend);
-    private final double threshhold = 0.00001;
+    private static final double threshhold = 0.00001;
 
     public TemperatureSeriesAnalysis() {
         /*
@@ -38,8 +38,8 @@ public class TemperatureSeriesAnalysis {
         this();
         if (checkMargin.checkAnyMargin(temperatureSeries, lowerBound,
                 temperatureSeries.length, less)) {
-            throw new InputMismatchException("Initial array has " +
-                    "impossibly low temperatures");
+            throw new InputMismatchException("Initial array has "
+                    + "impossibly low temperatures");
         }
         else {
             this.currentSize = temperatureSeries.length;
@@ -52,8 +52,8 @@ public class TemperatureSeriesAnalysis {
         Check if array is empty.
         */
         if (currentSize == 0) {
-            throw new IllegalArgumentException("no " + methodName +
-                    " for empty array");
+            throw new IllegalArgumentException("no " + methodName
+                    + " for empty array");
         }
     }
 
