@@ -311,6 +311,14 @@ public class TemperatureSeriesAnalysisTest {
     }
 
     @Test
+    public void testSummaryToString() {
+        TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(new double[]{1, 0.2});
+        String actualResult = seriesAnalysis.summaryStatistics().toString();
+        String expResult = "TempSummaryStatistics{avgTemp=0.6, devTemp=0.4, minTemp=0.2, maxTemp=1.0}";
+        assertEquals(expResult, actualResult);
+    }
+
+    @Test
     public void testAddTempsSize() {
         TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis();
         int actualResult = seriesAnalysis.addTemps(1, 2, 0.4, -4.5);
